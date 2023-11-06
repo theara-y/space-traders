@@ -12,3 +12,6 @@ class User(db.Model):
         salt = bcrypt.gensalt(rounds=12)
         hashed_password = bcrypt.hashpw(encoded_password, salt)
         self.password = hashed_password
+
+    def check_password(self, password):
+        return bcrypt.checkpw(password.encode('utf-8'), self.password)

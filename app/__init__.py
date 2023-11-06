@@ -2,9 +2,13 @@ from flask import Flask
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_login import LoginManager
 
 db = SQLAlchemy()
 migrate = Migrate()
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.login_message = 'Login required.'
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -12,6 +16,7 @@ def create_app(config_class=Config):
 
     db.init_app(app)
     migrate.init_app(app, db)
+    login_manager.init_app(app)
 
     # Register blueprints
     from app.errors import bp as errors_bp

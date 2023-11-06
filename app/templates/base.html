@@ -14,14 +14,53 @@
 </head>
 
 <body>
-  <div>
-    {% with messages = get_flashed_messages() %}
+  <div class="relative">
+    {% with messages = get_flashed_messages(with_categories=True, category_filter=['success']) %}
     {% if messages %}
-    {% for message in messages %}
-    <div>{{message}}</div>
+    {% for category, message in messages %}
+    <div class="fixed top-5 left-0 right-0 flex items-center justify-center">
+      <div class="bg-slate-100 p-4 rounded-lg shadow-lg">
+        <div class="flex items-center gap-x-2">
+          <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <div class="animate-ping w-5 h-5 bg-green-500 rounded-full absolute"></div>
+          </div>
+          <div>
+            <span class="font-bold">Test {{category}}</span>
+            <p>{{message}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
     {% endfor %}
     {% endif %}
     {% endwith %}
+
+    {% with messages = get_flashed_messages(with_categories=True, category_filter=['error']) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="fixed top-5 left-0 right-0 flex items-center justify-center">
+      <div class="bg-slate-100 p-4 rounded-lg shadow-lg">
+        <div class="flex items-center gap-x-2">
+          <div class="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center mr-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <div class="animate-ping w-5 h-5 bg-red-500 rounded-full absolute"></div>
+          </div>
+          <div>
+            <span class="font-bold">{{category|capitalize}}</span>
+            <p>{{message}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
     {% block content %}
     {% endblock %}
   </div>
